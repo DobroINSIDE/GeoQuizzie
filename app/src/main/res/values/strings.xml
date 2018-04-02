@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GeoQuiz</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="next_button">Next</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="incorrect_toast">Incorrect! </string>
+
+    <string name="question_australia">Канберра это столица австралии.</string>
+    <string name="question_oceans">Тихий океан больше атлантического.</string>
+    <string name="question_mideast">Суецкий канал соединияет Красное море и Индийский океан.</string>
+    <string name="question_africa">Источник реки Нил находится в Египте.</string>
+    <string name="question_asia">Байкал - самое большое озеро в мире.</string>
+    <string name="question_americas">Амазонка - самая длинная река в Америке.</string>
+</resources>
