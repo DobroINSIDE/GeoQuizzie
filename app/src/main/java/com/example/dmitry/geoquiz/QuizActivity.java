@@ -1,5 +1,6 @@
 package com.example.dmitry.geoquiz;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private Button mButtonTrue;
     private Button mButtonFalse;
+    private Button mCheatButton;
     private ImageButton mNextButton;
     private ImageButton mBackButton;
     private TextView mQuestionTextView;
@@ -83,31 +85,18 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        mCheatButton = (Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //start cheat activity
+                //создаем объект класса Intent и запускаем активность
+                Intent intent = new Intent(QuizActivity.this, CheatActivity.class);
+                startActivity(intent);
+            }
+        });
+
         updateQuestion();
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart() called");
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        Log.d(TAG, "onResume() called");
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        Log.d(TAG, "onPause() called");
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop() called ");
     }
 
     @Override
@@ -115,12 +104,6 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
     }
 
     //Функция обновления текста в TextView. Помещает текст из объекта в TextView
