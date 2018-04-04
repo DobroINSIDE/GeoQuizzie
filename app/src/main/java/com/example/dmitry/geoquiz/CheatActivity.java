@@ -16,8 +16,10 @@ public class CheatActivity extends AppCompatActivity {
             "com.example.dmitry.geoquiz.answer_is_true";
     private static final String EXTRA_ANSWER_SHOWN =
             "com.example.dmitry.geoquiz.answer_shown";
+    private static final String KEY_CHEAT = "IS CHEAT";
 
-    private boolean mAnswerIstrue;
+    private boolean mAnswerIsTrue;
+    private boolean mAnswerShown = false;
 
     private TextView mAnswerTextView;
     private Button mShowAnswerButton;
@@ -37,7 +39,11 @@ public class CheatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
-        mAnswerIstrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
+        if (savedInstanceState != null){
+            mAnswerShown = savedInstanceState.getBoolean(KEY_CHEAT, false);
+        }
+
+        mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
 
@@ -45,7 +51,8 @@ public class CheatActivity extends AppCompatActivity {
         mShowAnswerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mAnswerIstrue) {
+                mAnswerShown = true;
+                if (mAnswerIsTrue) {
                     mAnswerTextView.setText(R.string.true_button);
                 } else {
                     mAnswerTextView.setText(R.string.false_button);
@@ -53,6 +60,18 @@ public class CheatActivity extends AppCompatActivity {
                 setAnswerShownResult(true);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(KEY_CHEAT, mAnswerShown);
+    }
+
+    @Override
+    public void onBackPressed(){
+        setAnswerShownResult(mAnswerIsTrue);
+        super.onBackPressed();
     }
 
     private void setAnswerShownResult(boolean isAnswerShown){

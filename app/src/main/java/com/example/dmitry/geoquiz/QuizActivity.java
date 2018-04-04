@@ -24,6 +24,8 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_CHEAT = 0;
     private static final String KEY_INDEX = "index";
+    private static final String CHEAT_INDEX = "false";
+    private static final String RESULT_INDEX = "result";
     private static final String TAG = "QuizActivity";
     private int correctCounter = 0;
     private int qCounter = 0;
@@ -52,6 +54,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null){
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mIsCheater = savedInstanceState.getBoolean(CHEAT_INDEX, false);
         }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
@@ -123,6 +126,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        savedInstanceState.putBoolean(CHEAT_INDEX, mIsCheater);
     }
 
     //Функция обновления текста в TextView. Помещает текст из объекта в TextView
@@ -131,6 +135,7 @@ public class QuizActivity extends AppCompatActivity {
         mQuestionTextView.setText(question);
         mButtonFalse.setEnabled(true);
         mButtonTrue.setEnabled(true);
+        mNextButton.setEnabled(false);
     }
 
     //Функция проверки верности ответа.
@@ -153,8 +158,7 @@ public class QuizActivity extends AppCompatActivity {
 
         mButtonFalse.setEnabled(false);
         mButtonTrue.setEnabled(false);
-
-        //Создание уведомления
+        mNextButton.setEnabled(true);
 
         if (qCounter == 6) {
            // int percent = (correctCounter % qCounter) * 100;
