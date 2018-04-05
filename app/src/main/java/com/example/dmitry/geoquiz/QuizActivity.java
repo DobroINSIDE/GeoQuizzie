@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 //Активити - контроллер
 public class QuizActivity extends AppCompatActivity {
 
@@ -21,6 +23,7 @@ public class QuizActivity extends AppCompatActivity {
     private ImageButton mNextButton;
     private ImageButton mBackButton;
     private TextView mQuestionTextView;
+    private TextView mHintTextView;
 
     private static final int REQUEST_CODE_CHEAT = 0;
     private static final String KEY_INDEX = "index";
@@ -29,6 +32,7 @@ public class QuizActivity extends AppCompatActivity {
     private static final String TAG = "QuizActivity";
     private int correctCounter = 0;
     private int qCounter = 0;
+    private int cheatCount = 3;
 
     //Массив объектов Question. В каждом элементе массива
     //
@@ -58,6 +62,9 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         mQuestionTextView = (TextView) findViewById(R.id.question_text_view);
+
+        mHintTextView = (TextView) findViewById(R.id.hint_count);
+        mHintTextView.setText("Подсказок осталось: " + cheatCount);
 
         //Кнопка Next. При нажатии выводит в TextView следующий вопрос (объект из массива)
         mNextButton = (ImageButton) findViewById(R.id.next_button);
@@ -96,7 +103,8 @@ public class QuizActivity extends AppCompatActivity {
         mCheatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //start cheat activity
+                hintPressed();
+
                 //создаем объект класса Intent и запускаем активность
                 boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
                 Intent intent = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
@@ -138,6 +146,15 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setEnabled(false);
     }
 
+    private void hintPressed(){
+        if (cheatCount == 1){
+            mCheatButton.setEnabled(false);
+            return;
+        }
+
+        cheatCount -= 1;
+        mHintTextView.setText("Подсказок осталось: " + cheatCount);
+    }
     //Функция проверки верности ответа.
     private void checkAnswer(boolean userPressedTrue) {
         //берет значение true или false из объекта
